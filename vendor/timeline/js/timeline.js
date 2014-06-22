@@ -288,15 +288,16 @@ if (typeof VMM == 'undefined') {
 			
 			ce += "<img src='" + media + "'>";
 			
+			// CAPTION
+			if (caption != null && caption != "") {
+				ce += VMM.createElement("div", caption, "caption");
+			}
+
 			// CREDIT
 			if (credit != null && credit != "") {
 				ce += VMM.createElement("div", credit, "credit");
 			}
 			
-			// CAPTION
-			if (caption != null && caption != "") {
-				ce += VMM.createElement("div", caption, "caption");
-			}
 
 		}
 		
@@ -5992,8 +5993,8 @@ if (typeof VMM.Slider != 'undefined') {
 						VMM.Lib.removeClass($slide, "pad-left");
 						VMM.Lib.detach($text);
 						VMM.Lib.detach($media);
-						VMM.Lib.append($slide, $text);
 						VMM.Lib.append($slide, $media);
+						VMM.Lib.append($slide, $text);
 						is_skinny = true;
 					} 
 				} else {
