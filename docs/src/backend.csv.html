@@ -1,240 +1,825 @@
-<!DOCTYPE html>  <html> <head>   <title>backend.csv.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="backend.csv.html">                 backend.csv.js               </a>                                           <a class="source" href="backend.dataproxy.html">                 backend.dataproxy.js               </a>                                           <a class="source" href="backend.memory.html">                 backend.memory.js               </a>                                           <a class="source" href="ecma-fixes.html">                 ecma-fixes.js               </a>                                           <a class="source" href="model.html">                 model.js               </a>                                           <a class="source" href="view.flot.html">                 view.flot.js               </a>                                           <a class="source" href="view.graph.html">                 view.graph.js               </a>                                           <a class="source" href="view.grid.html">                 view.grid.js               </a>                                           <a class="source" href="view.map.html">                 view.map.js               </a>                                           <a class="source" href="view.multiview.html">                 view.multiview.js               </a>                                           <a class="source" href="view.slickgrid.html">                 view.slickgrid.js               </a>                                           <a class="source" href="view.timeline.html">                 view.timeline.js               </a>                                           <a class="source" href="widget.facetviewer.html">                 widget.facetviewer.js               </a>                                           <a class="source" href="widget.fields.html">                 widget.fields.js               </a>                                           <a class="source" href="widget.filtereditor.html">                 widget.filtereditor.js               </a>                                           <a class="source" href="widget.pager.html">                 widget.pager.js               </a>                                           <a class="source" href="widget.queryeditor.html">                 widget.queryeditor.js               </a>                                           <a class="source" href="widget.valuefilter.html">                 widget.valuefilter.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               backend.csv.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">recline</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">recline</span> <span class="o">||</span> <span class="p">{};</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">recline</span><span class="p">.</span><span class="nx">Backend</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">recline</span><span class="p">.</span><span class="nx">Backend</span> <span class="o">||</span> <span class="p">{};</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">recline</span><span class="p">.</span><span class="nx">Backend</span><span class="p">.</span><span class="nx">CSV</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">recline</span><span class="p">.</span><span class="nx">Backend</span><span class="p">.</span><span class="nx">CSV</span> <span class="o">||</span> <span class="p">{};</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Note that provision of jQuery is optional (it is <strong>only</strong> needed if you use fetch on a remote file)</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">my</span><span class="p">)</span> <span class="p">{</span>
-  <span class="s2">&quot;use strict&quot;</span><span class="p">;</span>
-  <span class="nx">my</span><span class="p">.</span><span class="nx">__type__</span> <span class="o">=</span> <span class="s1">&#39;csv&#39;</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>use either jQuery or Underscore Deferred depending on what is available</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">Deferred</span> <span class="o">=</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">jQuery</span> <span class="o">!==</span> <span class="s2">&quot;undefined&quot;</span> <span class="o">&amp;&amp;</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">Deferred</span><span class="p">)</span> <span class="o">||</span> <span class="nx">_</span><span class="p">.</span><span class="nx">Deferred</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h2>fetch</h2>
+<!DOCTYPE html>
 
+<html>
+<head>
+  <title>backend.csv.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="backend.csv.html">
+                backend.csv.js
+              </a>
+            
+              
+              <a class="source" href="backend.dataproxy.html">
+                backend.dataproxy.js
+              </a>
+            
+              
+              <a class="source" href="backend.memory.html">
+                backend.memory.js
+              </a>
+            
+              
+              <a class="source" href="ecma-fixes.html">
+                ecma-fixes.js
+              </a>
+            
+              
+              <a class="source" href="model.html">
+                model.js
+              </a>
+            
+              
+              <a class="source" href="view.flot.html">
+                view.flot.js
+              </a>
+            
+              
+              <a class="source" href="view.graph.html">
+                view.graph.js
+              </a>
+            
+              
+              <a class="source" href="view.grid.html">
+                view.grid.js
+              </a>
+            
+              
+              <a class="source" href="view.map.html">
+                view.map.js
+              </a>
+            
+              
+              <a class="source" href="view.multiview.html">
+                view.multiview.js
+              </a>
+            
+              
+              <a class="source" href="view.slickgrid.html">
+                view.slickgrid.js
+              </a>
+            
+              
+              <a class="source" href="view.timeline.html">
+                view.timeline.js
+              </a>
+            
+              
+              <a class="source" href="widget.facetviewer.html">
+                widget.facetviewer.js
+              </a>
+            
+              
+              <a class="source" href="widget.fields.html">
+                widget.fields.js
+              </a>
+            
+              
+              <a class="source" href="widget.filtereditor.html">
+                widget.filtereditor.js
+              </a>
+            
+              
+              <a class="source" href="widget.pager.html">
+                widget.pager.js
+              </a>
+            
+              
+              <a class="source" href="widget.queryeditor.html">
+                widget.queryeditor.js
+              </a>
+            
+              
+              <a class="source" href="widget.valuefilter.html">
+                widget.valuefilter.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>backend.csv.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">this</span>.recline = <span class="hljs-keyword">this</span>.recline || {};
+<span class="hljs-keyword">this</span>.recline.Backend = <span class="hljs-keyword">this</span>.recline.Backend || {};
+<span class="hljs-keyword">this</span>.recline.Backend.CSV = <span class="hljs-keyword">this</span>.recline.Backend.CSV || {};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Note that provision of jQuery is optional (it is <strong>only</strong> needed if you use fetch on a remote file)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(my)</span> {</span>
+<span class="hljs-pi">  "use strict"</span>;
+  my.__type__ = <span class="hljs-string">'csv'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>use either jQuery or Underscore Deferred depending on what is available</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> Deferred = (<span class="hljs-keyword">typeof</span> jQuery !== <span class="hljs-string">"undefined"</span> &amp;&amp; jQuery.Deferred) || _.Deferred;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h2 id="fetch">fetch</h2>
 <p>fetch supports 3 options depending on the attribute provided on the dataset argument</p>
-
 <ol>
 <li><code>dataset.file</code>: <code>file</code> is an HTML5 file object. This is opened and parsed with the CSV parser.</li>
 <li><code>dataset.data</code>: <code>data</code> is a string in CSV format. This is passed directly to the CSV parser</li>
 <li><code>dataset.url</code>: a url to an online CSV file that is ajax accessible (note this usually requires either local or on a server that is CORS enabled). The file is then loaded using jQuery.ajax and parsed using the CSV parser (NB: this requires jQuery)</li>
 </ol>
-
 <p>All options generates similar data and use the memory store outcome, that is they return something like:</p>
-
 <pre>
 {
   records: [ [...], [...], ... ],
   metadata: { may be some metadata e.g. file name }
   useMemoryStore: true
 }
-</pre>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">my</span><span class="p">.</span><span class="nx">fetch</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">dfd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Deferred</span><span class="p">();</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
-      <span class="kd">var</span> <span class="nx">encoding</span> <span class="o">=</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">encoding</span> <span class="o">||</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">;</span>
-      <span class="nx">reader</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="nx">my</span><span class="p">.</span><span class="nx">extractFields</span><span class="p">(</span><span class="nx">my</span><span class="p">.</span><span class="nx">parseCSV</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">result</span><span class="p">,</span> <span class="nx">dataset</span><span class="p">),</span> <span class="nx">dataset</span><span class="p">);</span>
-        <span class="nx">out</span><span class="p">.</span><span class="nx">useMemoryStore</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-        <span class="nx">out</span><span class="p">.</span><span class="nx">metadata</span> <span class="o">=</span> <span class="p">{</span>
-          <span class="nx">filename</span><span class="o">:</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">name</span>
-        <span class="p">}</span>
-        <span class="nx">dfd</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span>
-      <span class="p">};</span>
-      <span class="nx">reader</span><span class="p">.</span><span class="nx">onerror</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Failed to load file. Code: &#39;</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">error</span><span class="p">.</span><span class="nx">code</span><span class="p">);</span>
-      <span class="p">};</span>
-      <span class="nx">reader</span><span class="p">.</span><span class="nx">readAsText</span><span class="p">(</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">file</span><span class="p">,</span> <span class="nx">encoding</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="nx">my</span><span class="p">.</span><span class="nx">extractFields</span><span class="p">(</span><span class="nx">my</span><span class="p">.</span><span class="nx">parseCSV</span><span class="p">(</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="nx">dataset</span><span class="p">),</span> <span class="nx">dataset</span><span class="p">);</span>
-      <span class="nx">out</span><span class="p">.</span><span class="nx">useMemoryStore</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-      <span class="nx">dfd</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">url</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">jQuery</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="nx">my</span><span class="p">.</span><span class="nx">extractFields</span><span class="p">(</span><span class="nx">my</span><span class="p">.</span><span class="nx">parseCSV</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">dataset</span><span class="p">),</span> <span class="nx">dataset</span><span class="p">);</span>
-        <span class="nx">out</span><span class="p">.</span><span class="nx">useMemoryStore</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-        <span class="nx">dfd</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span>
-      <span class="p">});</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="nx">dfd</span><span class="p">.</span><span class="nx">promise</span><span class="p">();</span>
-  <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Convert array of rows in { records: [ ...] , fields: [ ... ] }
-@param {Boolean} noHeaderRow If true assume that first row is not a header (i.e. list of fields but is data.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">my</span><span class="p">.</span><span class="nx">extractFields</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">rows</span><span class="p">,</span> <span class="nx">noFields</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">noFields</span><span class="p">.</span><span class="nx">noHeaderRow</span> <span class="o">!==</span> <span class="kc">true</span> <span class="o">&amp;&amp;</span> <span class="nx">rows</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="p">{</span>
-        <span class="nx">fields</span><span class="o">:</span> <span class="nx">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="nx">records</span><span class="o">:</span> <span class="nx">rows</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-      <span class="p">}</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="p">{</span>
-        <span class="nx">records</span><span class="o">:</span> <span class="nx">rows</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h2>parseCSV</h2>
+</pre>
 
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  my.fetch = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(dataset)</span> {</span>
+    <span class="hljs-keyword">var</span> dfd = <span class="hljs-keyword">new</span> Deferred();
+    <span class="hljs-keyword">if</span> (dataset.file) {
+      <span class="hljs-keyword">var</span> reader = <span class="hljs-keyword">new</span> FileReader();
+      <span class="hljs-keyword">var</span> encoding = dataset.encoding || <span class="hljs-string">'UTF-8'</span>;
+      reader.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> {</span>
+        <span class="hljs-keyword">var</span> out = my.extractFields(my.parseCSV(e.target.result, dataset), dataset);
+        out.useMemoryStore = <span class="hljs-literal">true</span>;
+        out.metadata = {
+          filename: dataset.file.name
+        }
+        dfd.resolve(out);
+      };
+      reader.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(e)</span> {</span>
+        alert(<span class="hljs-string">'Failed to load file. Code: '</span> + e.target.error.code);
+      };
+      reader.readAsText(dataset.file, encoding);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dataset.data) {
+      <span class="hljs-keyword">var</span> out = my.extractFields(my.parseCSV(dataset.data, dataset), dataset);
+      out.useMemoryStore = <span class="hljs-literal">true</span>;
+      dfd.resolve(out);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dataset.url) {
+      jQuery.get(dataset.url).done(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data)</span> {</span>
+        <span class="hljs-keyword">var</span> out = my.extractFields(my.parseCSV(data, dataset), dataset);
+        out.useMemoryStore = <span class="hljs-literal">true</span>;
+        dfd.resolve(out);
+      });
+    }
+    <span class="hljs-keyword">return</span> dfd.promise();
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Convert array of rows in { records: [ …] , fields: [ … ] }
+@param {Boolean} noHeaderRow If true assume that first row is not a header (i.e. list of fields but is data.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  my.extractFields = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(rows, noFields)</span> {</span>
+    <span class="hljs-keyword">if</span> (noFields.noHeaderRow !== <span class="hljs-literal">true</span> &amp;&amp; rows.length &gt; <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span> {
+        fields: rows[<span class="hljs-number">0</span>],
+        records: rows.slice(<span class="hljs-number">1</span>)
+      }
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> {
+        records: rows
+      }
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <h2 id="parsecsv">parseCSV</h2>
 <p>Converts a Comma Separated Values string into an array of arrays.
 Each line in the CSV becomes an array.</p>
-
 <p>Empty fields are converted to nulls and non-quoted numbers are converted to integers or floats.</p>
-
 <p>@return The CSV parsed as an array
 @type Array</p>
-
 <p>@param {String} s The string to convert
 @param {Object} options Options for loading CSV including
       @param {Boolean} [trim=false] If set to True leading and trailing
         whitespace is stripped off of each non-quoted field as it is imported
-  @param {String} [delimiter=','] A one-character string used to separate
-    fields. It defaults to ','
-   @param {String} [quotechar='"'] A one-character string used to quote
+  @param {String} [delimiter=’,’] A one-character string used to separate
+    fields. It defaults to ‘,’
+   @param {String} [quotechar=’”‘] A one-character string used to quote
      fields containing special characters, such as the delimiter or
-     quotechar, or which contain new-line characters. It defaults to '"'</p>
+     quotechar, or which contain new-line characters. It defaults to ‘“‘</p>
+<p>   @param {Integer} skipInitialRows A integer number of rows to skip (default 0)</p>
+<p>Heavily based on uselesscode’s JS CSV parser (MIT Licensed):
+<a href="http://www.uselesscode.org/javascript/csv/">http://www.uselesscode.org/javascript/csv/</a></p>
 
-<p>@param {Integer} skipInitialRows A integer number of rows to skip (default 0)</p>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  my.parseCSV= <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s, options)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Get rid of any trailing \n</p>
 
-<p>Heavily based on uselesscode's JS CSV parser (MIT Licensed):
-http://www.uselesscode.org/javascript/csv/</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">my</span><span class="p">.</span><span class="nx">parseCSV</span><span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Get rid of any trailing \n</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">s</span> <span class="o">=</span> <span class="nx">chomp</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    s = chomp(s);
 
-    <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span> <span class="o">||</span> <span class="p">{};</span>
-    <span class="kd">var</span> <span class="nx">trm</span> <span class="o">=</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">trim</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="o">?</span> <span class="kc">false</span> <span class="o">:</span> <span class="kc">true</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">delimiter</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">delimiter</span> <span class="o">||</span> <span class="s1">&#39;,&#39;</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">quotechar</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">quotechar</span> <span class="o">||</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">;</span>
+    <span class="hljs-keyword">var</span> options = options || {};
+    <span class="hljs-keyword">var</span> trm = (options.trim === <span class="hljs-literal">false</span>) ? <span class="hljs-literal">false</span> : <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">var</span> delimiter = options.delimiter || <span class="hljs-string">','</span>;
+    <span class="hljs-keyword">var</span> quotechar = options.quotechar || <span class="hljs-string">'"'</span>;
 
-    <span class="kd">var</span> <span class="nx">cur</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="c1">// The character we are currently processing.</span>
-      <span class="nx">inQuote</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="nx">fieldQuoted</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="nx">field</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="c1">// Buffer for building up the current field</span>
-      <span class="nx">row</span> <span class="o">=</span> <span class="p">[],</span>
-      <span class="nx">out</span> <span class="o">=</span> <span class="p">[],</span>
-      <span class="nx">i</span><span class="p">,</span>
-      <span class="nx">processField</span><span class="p">;</span>
+    <span class="hljs-keyword">var</span> cur = <span class="hljs-string">''</span>, <span class="hljs-comment">// The character we are currently processing.</span>
+      inQuote = <span class="hljs-literal">false</span>,
+      fieldQuoted = <span class="hljs-literal">false</span>,
+      field = <span class="hljs-string">''</span>, <span class="hljs-comment">// Buffer for building up the current field</span>
+      row = [],
+      out = [],
+      i,
+      processField;
 
-    <span class="nx">processField</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">fieldQuoted</span> <span class="o">!==</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>If field is empty set to null</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="nx">field</span> <span class="o">===</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">field</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If the field was not quoted and we are trimming fields, trim it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">trm</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">field</span> <span class="o">=</span> <span class="nx">trim</span><span class="p">(</span><span class="nx">field</span><span class="p">);</span>
-        <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Convert unquoted numbers to their appropriate types</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="nx">rxIsInt</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">field</span><span class="p">))</span> <span class="p">{</span>
-          <span class="nx">field</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">field</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">rxIsFloat</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">field</span><span class="p">))</span> <span class="p">{</span>
-          <span class="nx">field</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">field</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-      <span class="k">return</span> <span class="nx">field</span><span class="p">;</span>
-    <span class="p">};</span>
+    processField = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(field)</span> {</span>
+      <span class="hljs-keyword">if</span> (fieldQuoted !== <span class="hljs-literal">true</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>If field is empty set to null</p>
 
-    <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">s</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">cur</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If we are at a EOF or EOR</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">if</span> <span class="p">(</span><span class="nx">inQuote</span> <span class="o">===</span> <span class="kc">false</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">cur</span> <span class="o">===</span> <span class="nx">delimiter</span> <span class="o">||</span> <span class="nx">cur</span> <span class="o">===</span> <span class="s2">&quot;\n&quot;</span><span class="p">))</span> <span class="p">{</span>
-        <span class="nx">field</span> <span class="o">=</span> <span class="nx">processField</span><span class="p">(</span><span class="nx">field</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Add the current field to the current row</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">row</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">field</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>If this is EOR append row to output and flush row</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="nx">cur</span> <span class="o">===</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">out</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">row</span><span class="p">);</span>
-          <span class="nx">row</span> <span class="o">=</span> <span class="p">[];</span>
-        <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Flush the field buffer</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">field</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-        <span class="nx">fieldQuoted</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>If it's not a quotechar, add it to the field buffer</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="nx">cur</span> <span class="o">!==</span> <span class="nx">quotechar</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">field</span> <span class="o">+=</span> <span class="nx">cur</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-          <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">inQuote</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>We are not in a quote, start a quote</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="nx">inQuote</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-            <span class="nx">fieldQuoted</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Next char is quotechar, this is an escaped quotechar</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">===</span> <span class="nx">quotechar</span><span class="p">)</span> <span class="p">{</span>
-              <span class="nx">field</span> <span class="o">+=</span> <span class="nx">quotechar</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Skip the next char</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>It's not escaping, so end quote</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="nx">inQuote</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-            <span class="p">}</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Add the last field</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">field</span> <span class="o">=</span> <span class="nx">processField</span><span class="p">(</span><span class="nx">field</span><span class="p">);</span>
-    <span class="nx">row</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">field</span><span class="p">);</span>
-    <span class="nx">out</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">row</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Expose the ability to discard initial rows</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">skipInitialRows</span><span class="p">)</span> <span class="nx">out</span> <span class="o">=</span> <span class="nx">out</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">skipInitialRows</span><span class="p">);</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (field === <span class="hljs-string">''</span>) {
+          field = <span class="hljs-literal">null</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>If the field was not quoted and we are trimming fields, trim it</p>
 
-    <span class="k">return</span> <span class="nx">out</span><span class="p">;</span>
-  <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <h2>serializeCSV</h2>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (trm === <span class="hljs-literal">true</span>) {
+          field = trim(field);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Convert unquoted numbers to their appropriate types</p>
 
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (rxIsInt.test(field)) {
+          field = <span class="hljs-built_in">parseInt</span>(field, <span class="hljs-number">10</span>);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (rxIsFloat.test(field)) {
+          field = <span class="hljs-built_in">parseFloat</span>(field, <span class="hljs-number">10</span>);
+        }
+      }
+      <span class="hljs-keyword">return</span> field;
+    };
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; s.length; i += <span class="hljs-number">1</span>) {
+      cur = s.charAt(i);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>If we are at a EOF or EOR</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (inQuote === <span class="hljs-literal">false</span> &amp;&amp; (cur === delimiter || cur === <span class="hljs-string">"\n"</span>)) {
+        field = processField(field);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Add the current field to the current row</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        row.push(field);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>If this is EOR append row to output and flush row</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (cur === <span class="hljs-string">"\n"</span>) {
+          out.push(row);
+          row = [];
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Flush the field buffer</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        field = <span class="hljs-string">''</span>;
+        fieldQuoted = <span class="hljs-literal">false</span>;
+      } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>If it’s not a quotechar, add it to the field buffer</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (cur !== quotechar) {
+          field += cur;
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">if</span> (!inQuote) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>We are not in a quote, start a quote</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            inQuote = <span class="hljs-literal">true</span>;
+            fieldQuoted = <span class="hljs-literal">true</span>;
+          } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Next char is quotechar, this is an escaped quotechar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (s.charAt(i + <span class="hljs-number">1</span>) === quotechar) {
+              field += quotechar;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Skip the next char</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              i += <span class="hljs-number">1</span>;
+            } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>It’s not escaping, so end quote</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              inQuote = <span class="hljs-literal">false</span>;
+            }
+          }
+        }
+      }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Add the last field</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    field = processField(field);
+    row.push(field);
+    out.push(row);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Expose the ability to discard initial rows</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (options.skipInitialRows) out = out.slice(options.skipInitialRows);
+
+    <span class="hljs-keyword">return</span> out;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <h2 id="serializecsv">serializeCSV</h2>
 <p>Convert an Object or a simple array of arrays into a Comma
 Separated Values string.</p>
-
 <p>Nulls are converted to empty fields and integers or floats are converted to non-quoted numbers.</p>
-
 <p>@return The array serialized as a CSV
 @type String</p>
-
 <p>@param {Object or Array} dataToSerialize The Object or array of arrays to convert. Object structure must be as follows:</p>
-
 <pre><code>{
   fields: [ {id: .., ...}, {id: ..., 
   records: [ { record }, { record }, ... ]
-  ... // more attributes we do not care about
+  ... <span class="hljs-comment">// more attributes we do not care about</span>
 }
-</code></pre>
-
-<p>@param {object} options Options for serializing the CSV file including
+</code></pre><p>@param {object} options Options for serializing the CSV file including
   delimiter and quotechar (see parseCSV options parameter above for
   details on these).</p>
+<p>Heavily based on uselesscode’s JS CSV serializer (MIT Licensed):
+<a href="http://www.uselesscode.org/javascript/csv/">http://www.uselesscode.org/javascript/csv/</a></p>
 
-<p>Heavily based on uselesscode's JS CSV serializer (MIT Licensed):
-http://www.uselesscode.org/javascript/csv/</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">my</span><span class="p">.</span><span class="nx">serializeCSV</span><span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dataToSerialize</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">dataToSerialize</span> <span class="k">instanceof</span> <span class="nb">Array</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">a</span> <span class="o">=</span> <span class="nx">dataToSerialize</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="nx">a</span> <span class="o">=</span> <span class="p">[];</span>
-      <span class="kd">var</span> <span class="nx">fieldNames</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">pluck</span><span class="p">(</span><span class="nx">dataToSerialize</span><span class="p">.</span><span class="nx">fields</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">);</span>
-      <span class="nx">a</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">fieldNames</span><span class="p">);</span>
-      <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">dataToSerialize</span><span class="p">.</span><span class="nx">records</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">record</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">fieldNames</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fn</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="nx">record</span><span class="p">[</span><span class="nx">fn</span><span class="p">];</span>
-        <span class="p">});</span>
-        <span class="nx">a</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">tmp</span><span class="p">);</span>
-      <span class="p">});</span>
-    <span class="p">}</span>
-    <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span> <span class="o">||</span> <span class="p">{};</span>
-    <span class="kd">var</span> <span class="nx">delimiter</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">delimiter</span> <span class="o">||</span> <span class="s1">&#39;,&#39;</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">quotechar</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">quotechar</span> <span class="o">||</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">;</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  my.serializeCSV= <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(dataToSerialize, options)</span> {</span>
+    <span class="hljs-keyword">var</span> a = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">if</span> (dataToSerialize <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Array</span>) {
+      a = dataToSerialize;
+    } <span class="hljs-keyword">else</span> {
+      a = [];
+      <span class="hljs-keyword">var</span> fieldNames = _.pluck(dataToSerialize.fields, <span class="hljs-string">'id'</span>);
+      a.push(fieldNames);
+      _.each(dataToSerialize.records, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(record, index)</span> {</span>
+        <span class="hljs-keyword">var</span> tmp = _.map(fieldNames, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(fn)</span> {</span>
+          <span class="hljs-keyword">return</span> record[fn];
+        });
+        a.push(tmp);
+      });
+    }
+    <span class="hljs-keyword">var</span> options = options || {};
+    <span class="hljs-keyword">var</span> delimiter = options.delimiter || <span class="hljs-string">','</span>;
+    <span class="hljs-keyword">var</span> quotechar = options.quotechar || <span class="hljs-string">'"'</span>;
 
-    <span class="kd">var</span> <span class="nx">cur</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="c1">// The character we are currently processing.</span>
-      <span class="nx">field</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="c1">// Buffer for building up the current field</span>
-      <span class="nx">row</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-      <span class="nx">out</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-      <span class="nx">i</span><span class="p">,</span>
-      <span class="nx">j</span><span class="p">,</span>
-      <span class="nx">processField</span><span class="p">;</span>
+    <span class="hljs-keyword">var</span> cur = <span class="hljs-string">''</span>, <span class="hljs-comment">// The character we are currently processing.</span>
+      field = <span class="hljs-string">''</span>, <span class="hljs-comment">// Buffer for building up the current field</span>
+      row = <span class="hljs-string">''</span>,
+      out = <span class="hljs-string">''</span>,
+      i,
+      j,
+      processField;
 
-    <span class="nx">processField</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">field</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>If field is null set to empty string</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">field</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">field</span> <span class="o">===</span> <span class="s2">&quot;string&quot;</span> <span class="o">&amp;&amp;</span> <span class="nx">rxNeedsQuoting</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">field</span><span class="p">))</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Convert string to delimited string</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">field</span> <span class="o">=</span> <span class="nx">quotechar</span> <span class="o">+</span> <span class="nx">field</span> <span class="o">+</span> <span class="nx">quotechar</span><span class="p">;</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">field</span> <span class="o">===</span> <span class="s2">&quot;number&quot;</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Convert number to string</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">field</span> <span class="o">=</span> <span class="nx">field</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
-      <span class="p">}</span>
+    processField = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(field)</span> {</span>
+      <span class="hljs-keyword">if</span> (field === <span class="hljs-literal">null</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>If field is null set to empty string</p>
 
-      <span class="k">return</span> <span class="nx">field</span><span class="p">;</span>
-    <span class="p">};</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        field = <span class="hljs-string">''</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> field === <span class="hljs-string">"string"</span> &amp;&amp; rxNeedsQuoting.test(field)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Convert string to delimited string</p>
 
-    <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">cur</span> <span class="o">=</span> <span class="nx">a</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        field = quotechar + field + quotechar;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> field === <span class="hljs-string">"number"</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Convert number to string</p>
 
-      <span class="k">for</span> <span class="p">(</span><span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">cur</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">field</span> <span class="o">=</span> <span class="nx">processField</span><span class="p">(</span><span class="nx">cur</span><span class="p">[</span><span class="nx">j</span><span class="p">]);</span></pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>If this is EOR append row to output and flush row</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="nx">j</span> <span class="o">===</span> <span class="p">(</span><span class="nx">cur</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
-          <span class="nx">row</span> <span class="o">+=</span> <span class="nx">field</span><span class="p">;</span>
-          <span class="nx">out</span> <span class="o">+=</span> <span class="nx">row</span> <span class="o">+</span> <span class="s2">&quot;\n&quot;</span><span class="p">;</span>
-          <span class="nx">row</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Add the current field to the current row</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="nx">row</span> <span class="o">+=</span> <span class="nx">field</span> <span class="o">+</span> <span class="nx">delimiter</span><span class="p">;</span>
-        <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Flush the field buffer</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">field</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        field = field.toString(<span class="hljs-number">10</span>);
+      }
 
-    <span class="k">return</span> <span class="nx">out</span><span class="p">;</span>
-  <span class="p">};</span>
+      <span class="hljs-keyword">return</span> field;
+    };
 
-  <span class="kd">var</span> <span class="nx">rxIsInt</span> <span class="o">=</span> <span class="sr">/^\d+$/</span><span class="p">,</span>
-    <span class="nx">rxIsFloat</span> <span class="o">=</span> <span class="sr">/^\d*\.\d+$|^\d+\.\d*$/</span><span class="p">,</span></pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>If a string has leading or trailing space,
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; a.length; i += <span class="hljs-number">1</span>) {
+      cur = a[i];
+
+      <span class="hljs-keyword">for</span> (j = <span class="hljs-number">0</span>; j &lt; cur.length; j += <span class="hljs-number">1</span>) {
+        field = processField(cur[j]);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>If this is EOR append row to output and flush row</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (j === (cur.length - <span class="hljs-number">1</span>)) {
+          row += field;
+          out += row + <span class="hljs-string">"\n"</span>;
+          row = <span class="hljs-string">''</span>;
+        } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Add the current field to the current row</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          row += field + delimiter;
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Flush the field buffer</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        field = <span class="hljs-string">''</span>;
+      }
+    }
+
+    <span class="hljs-keyword">return</span> out;
+  };
+
+  <span class="hljs-keyword">var</span> rxIsInt = <span class="hljs-regexp">/^\d+$/</span>,
+    rxIsFloat = <span class="hljs-regexp">/^\d*\.\d+$|^\d+\.\d*$/</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>If a string has leading or trailing space,
 contains a comma double quote or a newline
-it needs to be quoted in CSV output</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">rxNeedsQuoting</span> <span class="o">=</span> <span class="sr">/^\s|\s$|,|&quot;|\n/</span><span class="p">,</span>
-    <span class="nx">trim</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Fx 3.1 has a native trim function, it's about 10x faster, use it if it exists</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">if</span> <span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">trim</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
-        <span class="p">};</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^\s*/</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\s*$/</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
-        <span class="p">};</span>
-      <span class="p">}</span>
-    <span class="p">}());</span>
+it needs to be quoted in CSV output</p>
 
-  <span class="kd">function</span> <span class="nx">chomp</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!==</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Does not end with \n, just return string</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">return</span> <span class="nx">s</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Remove the \n</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">s</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    rxNeedsQuoting = <span class="hljs-regexp">/^\s|\s$|,|"|\n/</span>,
+    trim = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>Fx 3.1 has a native trim function, it’s about 10x faster, use it if it exists</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">String</span>.prototype.trim) {
+        <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(s)</span> {</span>
+          <span class="hljs-keyword">return</span> s.trim();
+        };
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(s)</span> {</span>
+          <span class="hljs-keyword">return</span> s.replace(<span class="hljs-regexp">/^\s*/</span>, <span class="hljs-string">''</span>).replace(<span class="hljs-regexp">/\s*$/</span>, <span class="hljs-string">''</span>);
+        };
+      }
+    }());
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chomp</span><span class="hljs-params">(s)</span> {</span>
+    <span class="hljs-keyword">if</span> (s.charAt(s.length - <span class="hljs-number">1</span>) !== <span class="hljs-string">"\n"</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>Does not end with \n, just return string</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> s;
+    } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>Remove the \n</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> s.substring(<span class="hljs-number">0</span>, s.length - <span class="hljs-number">1</span>);
+    }
+  }
 
 
-<span class="p">}(</span><span class="k">this</span><span class="p">.</span><span class="nx">recline</span><span class="p">.</span><span class="nx">Backend</span><span class="p">.</span><span class="nx">CSV</span><span class="p">));</span>
-
-</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
+}(<span class="hljs-keyword">this</span>.recline.Backend.CSV));</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
